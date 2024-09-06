@@ -1,0 +1,41 @@
+1) a)
+#include <stdio.h>
+
+int main() {
+    float n = 4000000000;
+        printf("%f\n", n);
+    return 0;
+}
+
+
+
+1)b) 
+#include <stdio.h>
+ int main (){
+ int a;
+
+ printf ("%d\n",a);
+
+ return 0;
+ }
+
+
+1) c)
+#include <stdio.h>
+int main () {
+
+ printf("%i",4);
+ printf("%i",2);
+ return 0;
+ }
+
+
+1) d)
+#include <stdio.h>
+
+int main() {
+    char a;
+    scanf("%c", &a);  
+    printf("%c\n", a);  
+    return 0;
+}
