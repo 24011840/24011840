@@ -1,0 +1,635 @@
+1-
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>  
+
+float lerTemperatura() {
+    float temp;
+    printf("Digite a temperatura atual (em graus Celsius): ");
+    scanf("%f", &temp);
+    return temp;
+}
+
+void ajustarVentilacao(float temperatura) {
+    if (temperatura < 20.0) {
+        printf("Aumentando a temperatura...\n");
+    } else if (temperatura > 25.0) {
+        printf("Resfriando o ambiente...\n");
+    } else {
+        printf("Temperatura dentro da faixa segura. Ventilação ajustada corretamente.\n");
+    }
+}
+
+int main() {
+    float temperatura;
+
+    do {
+        temperatura = lerTemperatura();
+
+        if (temperatura < 20.0) {
+            printf("Alerta! Temperatura muito baixa: %.2f°C\n", temperatura);
+        } else if (temperatura > 25.0) {
+            printf("Alerta! Temperatura muito alta: %.2f°C\n", temperatura);
+        } else {
+            printf("Temperatura estável: %.2f°C\n", temperatura);
+        }
+
+        ajustarVentilacao(temperatura);
+
+        sleep(1);
+
+    } while(1); 
+
+    return 0;
+}
+
+
+2-
+#include <stdio.h>
+
+int lerNivelCombustivel() {
+    int nivel;
+    printf("Digite o nível de combustível atual (em %%): ");
+    scanf("%d", &nivel);
+    return nivel;
+}
+
+int main() {
+    int nivelCombustivel;
+
+    nivelCombustivel = lerNivelCombustivel();
+
+    while (nivelCombustivel < 100) {
+        if (nivelCombustivel < 15) {
+            printf("Alerta! Nível de combustível abaixo de 15%%. Recarregue o veículo!\n");
+        } else {
+            printf("Nível de combustível: %d%%\n", nivelCombustivel);
+        }
+
+        nivelCombustivel = lerNivelCombustivel();
+    }
+
+    printf("O tanque está cheio (100%%). Monitoramento finalizado.\n");
+
+    return 0;
+}
+
+3-
+#include <stdio.h>
+
+int main() {
+    int totalPassos = 0;
+    int passos;
+
+    while (totalPassos < 10000) {
+        printf("Digite o número de passos dados: ");
+        scanf("%d", &passos);
+
+        totalPassos += passos;
+
+        printf("Total de passos até agora: %d\n", totalPassos);
+
+        if (totalPassos >= 10000) {
+            printf("Parabéns! Você atingiu ou ultrapassou a meta de 10.000 passos!\n");
+        }
+    }
+
+    return 0;
+}
+
+4-
+#include <stdio.h>
+
+int main() {
+    float deposito;
+
+    printf("Digite o valor do depósito inicial para abrir a conta (mínimo R$ 500,00): ");
+    scanf("%f", &deposito);
+
+    while (deposito < 500.00) {
+        printf("Erro: O valor mínimo para abrir a conta é R$ 500,00.\n");
+        printf("Por favor, insira um valor válido: ");
+        scanf("%f", &deposito);
+    }
+
+    printf("Depósito de R$ %.2f realizado com sucesso. Conta aberta!\n", deposito);
+
+    return 0;
+}
+
+desafio-
+#include <stdio.h>
+#include <math.h>
+
+float calcularMedia(float precos[], int dias) {
+    float soma = 0.0;
+    for (int i = 0; i < dias; i++) {
+        soma += precos[i];
+    }
+    return soma / dias;
+}
+
+float calcularDesvioPadrao(float precos[], int dias, float media) {
+    float somaDesvios = 0.0;
+    for (int i = 0; i < dias; i++) {
+        somaDesvios += pow(precos[i] - media, 2);
+    }
+    return sqrt(somaDesvios / dias);
+}
+
+int main() {
+    int dias, continuar;
+    float media, desvioPadrao;
+
+    do {
+        printf("Quantos dias deseja analisar? ");
+        scanf("%d", &dias);
+
+        float precos[dias];
+
+        printf("Digite o preço das ações para cada dia:\n");
+        for (int i = 0; i < dias; i++) {
+            printf("Dia %d: ", i + 1);
+            scanf("%f", &precos[i]);
+        }
+
+        media = calcularMedia(precos, dias);
+        desvioPadrao = calcularDesvioPadrao(precos, dias, media);
+
+        printf("\nMédia do preço das ações: %.2f\n", media);
+        printf("Desvio padrão: %.2f%%\n", desvioPadrao);
+
+        if (desvioPadrao < 5.0) {
+            printf("O desempenho da ação é considerado estável.\n");
+        } else {
+            printf("O desempenho da ação é considerado volátil.\n");
+        }
+
+        printf("\nDeseja realizar uma nova análise? (1 para sim, 0 para sair): ");
+        scanf("%d", &continuar);
+
+    } while (continuar == 1);
+
+    printf("Programa encerrado.\n");
+
+    return 0;
+}
+
+1-
+#include <stdio.h>
+#include <string.h>
+
+void moverRobo(int *x, int *y, char comando[]) {
+    if (strcmp(comando, "frente") == 0) {
+        if (*y < 9) {
+            (*y)++;
+        } else {
+            printf("O robô já está no limite superior (10,10).\n");
+        }
+    } else if (strcmp(comando, "tras") == 0) {
+        if (*y > 0) {
+            (*y)--;
+        } else {
+            printf("O robô já está no limite inferior (0,0).\n");
+        }
+    } else if (strcmp(comando, "esquerda") == 0) {
+        if (*x > 0) {
+            (*x)--;
+        } else {
+            printf("O robô já está no limite esquerdo (0,0).\n");
+        }
+    } else if (strcmp(comando, "direita") == 0) {
+        if (*x < 9) {
+            (*x)++;
+        } else {
+            printf("O robô já está no limite direito (10,10).\n");
+        }
+    } else {
+        printf("Comando inválido! Use 'frente', 'tras', 'esquerda', 'direita' ou 'sair'.\n");
+    }
+}
+
+int main() {
+    int x = 0, y = 0; 
+    char comando[20]; 
+
+    printf("O robô está no ponto inicial (0,0) em um espaço de 10x10 metros.\n");
+    printf("Comandos disponíveis: 'frente', 'tras', 'esquerda', 'direita'.\n");
+    printf("Digite 'sair' para encerrar o programa.\n");
+
+    do {
+        printf("\nDigite o comando de movimento: ");
+        scanf("%s", comando);
+
+        moverRobo(&x, &y, comando);
+
+        if (strcmp(comando, "sair") != 0) {
+            printf("Posição atual do robô: (%d, %d)\n", x, y);
+        }
+
+    } while (strcmp(comando, "sair") != 0); 
+
+    printf("Programa encerrado. O robô terminou na posição (%d, %d).\n", x, y);
+
+    return 0;
+}
+
+2-
+#include <stdio.h>
+
+int main() {
+    float distancia;
+    char continuar;
+
+    do {
+        printf("Digite a distância medida pelo sensor (em cm): ");
+        scanf("%f", &distancia);
+
+        printf("Distância registrada: %.2f cm\n", distancia);
+
+        if (distancia < 10.0) {
+            printf("Atenção: Distância menor que 10 cm detectada. Encerrando leituras...\n");
+            break;
+        }
+
+        printf("Deseja continuar as leituras? (s para sim, n para não): ");
+        scanf(" %c", &continuar);
+
+    } while (continuar == 's');  
+
+3-
+#include <stdio.h>
+
+int main() {
+    int escolha;
+    char continuar;
+
+    do {
+        printf("\nSelecione a ação que o robô deve realizar:\n");
+        printf("1. Ligar a lâmpada\n");
+        printf("2. Tocar um som\n");
+        printf("3. Mover o braço\n");
+        printf("4. Sair\n");
+        printf("Digite sua escolha (1-4): ");
+        scanf("%d", &escolha);
+
+        switch (escolha) {
+            case 1:
+                printf("Lâmpada ligada!\n");
+                break;
+            case 2:
+                printf("Som tocando...\n");
+                break;
+            case 3:
+                printf("Braço movido!\n");
+                break;
+            case 4:
+                printf("Encerrando o programa...\n");
+                break;
+            default:
+                printf("Opção inválida! Tente novamente.\n");
+                break;
+        }
+
+        if (escolha != 4) {
+            printf("\nDeseja realizar outra ação? (s para sim, n para não): ");
+            scanf(" %c", &continuar);
+        } else {
+            continuar = 'n'; 
+        }
+
+    } while (continuar == 's');  
+
+    printf("Programa encerrado.\n");
+
+    return 0;
+}
+
+4-
+#include <stdio.h>
+
+int main() {
+    float nivel_bateria;  
+    char continuar;
+
+    do {
+        printf("Digite o nível da bateria (em %%): ");
+        scanf("%f", &nivel_bateria);
+
+        if (nivel_bateria < 20.0) {
+            printf("Atenção: Bateria baixa! Nível atual: %.2f%%. Carregue o robô.\n", nivel_bateria);
+        } else {
+            printf("Nível de bateria adequado: %.2f%%.\n", nivel_bateria);
+        }
+
+        printf("\nDeseja verificar novamente? (s para sim, n para não): ");
+        scanf(" %c", &continuar);
+
+    } while (nivel_bateria < 20.0 && continuar == 's');  
+
+    printf("Monitoramento encerrado.\n");
+
+    return 0;
+}
+
+5-
+#include <stdio.h>
+
+void moverRobo(int *x, int *y, char comando[]) {
+    if (strcmp(comando, "cima") == 0) {
+        if (*y > 0) {
+            (*y)--;
+        } else {
+            printf("Movimento inválido! O robô está no limite superior.\n");
+        }
+    } else if (strcmp(comando, "baixo") == 0) {
+        if (*y < 4) {
+            (*y)++;
+        } else {
+            printf("Movimento inválido! O robô está no limite inferior.\n");
+        }
+    } else if (strcmp(comando, "esquerda") == 0) {
+        if (*x > 0) {
+            (*x)--;
+        } else {
+            printf("Movimento inválido! O robô está no limite esquerdo.\n");
+        }
+    } else if (strcmp(comando, "direita") == 0) {
+        if (*x < 4) {
+            (*x)++;
+        } else {
+            printf("Movimento inválido! O robô está no limite direito.\n");
+        }
+    } else {
+        printf("Comando inválido! Use 'cima', 'baixo', 'esquerda', 'direita' ou 'sair'.\n");
+    }
+}
+
+int main() {
+    int x = 2, y = 2; 
+    char comando[20];
+
+    printf("O robô está no grid 5x5. Posição inicial: (2,2)\n");
+    printf("Comandos disponíveis: 'cima', 'baixo', 'esquerda', 'direita'.\n");
+    printf("Digite 'sair' para encerrar o programa.\n");
+
+    do {
+        printf("\nPosição atual do robô: (%d, %d)\n", x, y);
+        printf("Digite o comando de movimento: ");
+        scanf("%s", comando);
+
+        moverRobo(&x, &y, comando);
+
+    } while (strcmp(comando, "sair") != 0);
+
+    printf("Programa encerrado. O robô terminou na posição (%d, %d).\n", x, y);
+
+    return 0;
+}
+
+desafio-
+#include <stdio.h>
+#include <string.h>
+
+#define GRID_SIZE 10
+
+void controleMovimento(int *x, int *y) {
+    char comando[10];
+    printf("Digite o comando de movimento (cima, baixo, esquerda, direita): ");
+    scanf("%s", comando);
+
+    if (strcmp(comando, "cima") == 0) {
+        if (*y > 0) (*y)--;
+        else printf("Movimento inválido! O robô está no limite superior.\n");
+    } else if (strcmp(comando, "baixo") == 0) {
+        if (*y < GRID_SIZE - 1) (*y)++;
+        else printf("Movimento inválido! O robô está no limite inferior.\n");
+    } else if (strcmp(comando, "esquerda") == 0) {
+        if (*x > 0) (*x)--;
+        else printf("Movimento inválido! O robô está no limite esquerdo.\n");
+    } else if (strcmp(comando, "direita") == 0) {
+        if (*x < GRID_SIZE - 1) (*x)++;
+        else printf("Movimento inválido! O robô está no limite direito.\n");
+    } else {
+        printf("Comando inválido! Use 'cima', 'baixo', 'esquerda', 'direita'.\n");
+    }
+    printf("Posição atual do robô: (%d, %d)\n", *x, *y);
+}
+
+void leituraSensores() {
+    float distancia;
+    printf("Digite a distância medida pelo sensor (em cm): ");
+    scanf("%f", &distancia);
+    printf("Distância registrada: %.2f cm\n", distancia);
+    if (distancia < 10) {
+        printf("Atenção: Objeto muito próximo!\n");
+    }
+}
+
+void controleAtuacao() {
+    int escolha;
+    printf("\nEscolha a ação do robô:\n");
+    printf("1. Ligar lâmpada\n");
+    printf("2. Tocar som\n");
+    printf("3. Mover braço\n");
+    printf("Digite sua escolha (1-3): ");
+    scanf("%d", &escolha);
+
+    switch (escolha) {
+        case 1:
+            printf("Lâmpada ligada!\n");
+            break;
+        case 2:
+            printf("Som tocando...\n");
+            break;
+        case 3:
+            printf("Braço movido!\n");
+            break;
+        default:
+            printf("Escolha inválida!\n");
+    }
+}
+
+void monitoramentoBateria() {
+    float nivel_bateria;
+    printf("Digite o nível da bateria (em %%): ");
+    scanf("%f", &nivel_bateria);
+
+    if (nivel_bateria < 20.0) {
+        printf("Atenção: Bateria baixa! Nível atual: %.2f%%\n", nivel_bateria);
+    } else {
+        printf("Nível de bateria adequado: %.2f%%\n", nivel_bateria);
+    }
+}
+
+void navegacaoAutonoma(int *x, int *y) {
+    char comando[10];
+    printf("Digite o comando de navegação (cima, baixo, esquerda, direita) ou 'sair' para parar: ");
+    scanf("%s", comando);
+
+    if (strcmp(comando, "cima") == 0) {
+        if (*y > 0) (*y)--;
+        else printf("Movimento inválido! O robô está no limite superior.\n");
+    } else if (strcmp(comando, "baixo") == 0) {
+        if (*y < 4) (*y)++;
+        else printf("Movimento inválido! O robô está no limite inferior.\n");
+    } else if (strcmp(comando, "esquerda") == 0) {
+        if (*x > 0) (*x)--;
+        else printf("Movimento inválido! O robô está no limite esquerdo.\n");
+    } else if (strcmp(comando, "direita") == 0) {
+        if (*x < 4) (*x)++;
+        else printf("Movimento inválido! O robô está no limite direito.\n");
+    } else if (strcmp(comando, "sair") == 0) {
+        printf("Saindo da navegação autônoma.\n");
+    } else {
+        printf("Comando inválido! Use 'cima', 'baixo', 'esquerda', 'direita' ou 'sair'.\n");
+    }
+    printf("Posição atual do robô no grid de navegação: (%d, %d)\n", *x, *y);
+}
+
+void exibirMenu() {
+    printf("\nEscolha uma funcionalidade:\n");
+    printf("1. Controle de Movimento\n");
+    printf("2. Leitura de Sensores de Distância\n");
+    printf("3. Controle de Atuação\n");
+    printf("4. Monitoramento de Bateria\n");
+    printf("5. Navegação Autônoma\n");
+    printf("6. Sair\n");
+    printf("Digite sua escolha (1-6): ");
+}
+
+int main() {
+    int x = 0, y = 0; 
+    int opcao;
+    char continuar = 's';
+
+    do {
+        exibirMenu();
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                controleMovimento(&x, &y);
+                break;
+            case 2:
+                leituraSensores();
+                break;
+            case 3:
+                controleAtuacao();
+                break;
+            case 4:
+                monitoramentoBateria();
+                break;
+            case 5:
+                navegacaoAutonoma(&x, &y);
+                break;
+            case 6:
+                printf("Programa encerrado.\n");
+                continuar = 'n';
+                break;
+            default:
+                printf("Opção inválida! Tente novamente.\n");
+                break;
+        }
+
+        if (continuar == 's') {
+            printf("Deseja continuar? (s para sim, n para não): ");
+            scanf(" %c", &continuar); 
+        }
+
+    } while (continuar == 's');
+
+    return 0;
+}
+
+1-
+int cameraData[10];  
+
+2-
+A linha de código cameraData[3] = analogRead(A1); tem a função de ler o valor analógico de um pino do Arduino e armazená-lo em um vetor.
+
+3-
+float temperaturas[5] = {25.5, 26.0, 24.8, 27.3, 26.5};
+
+4-
+O código percorre o vetor ledPins e imprime os valores dos pinos (ou outros valores armazenados no vetor) no Serial Monitor. 
+A resposta do código depende dos valores armazenados no vetor ledPins. Se o vetor contiver, por exemplo, {3, 5, 6, 9}, esses valores serão exibidos um por um no monitor serial.
+
+5-
+int ledPins[4] = {3, 5, 6, 9};  
+
+void setup() {
+  Serial.begin(9600);
+  
+  for (int i = 0; i < 4; i++) {
+    Serial.println(ledPins[i]); 
+  }
+}
+
+void loop() {
+}
+
+6-
+int randomValues[5]; 
+
+void setup() {
+  Serial.begin(9600);  
+
+  for (int i = 0; i < 5; i++) {
+    randomValues[i] = random(0, 100);  
+  }
+
+  for (int i = 0; i < 5; i++) {
+    Serial.print("randomValues[");
+    Serial.print(i);
+    Serial.print("]: ");
+    Serial.println(randomValues[i]);
+  }
+}
+
+void loop() {
+}
+
+7-
+O código percorre o vetor sensorReadings e, ao encontrar o valor 150, interrompe a execução do laço com break.Caso não encontre o valor 150 até o final do vetor, o laço terminará naturalmente
+após percorrer todos os elementos.O comando break é usado para sair do laço prematuramente quando uma condição específica é atendida (neste caso, o valor 150).
+
+8-
+A instrução sizeof(sensorData) / sizeof(sensorData[0]) é uma maneira comum de calcular o número de elementos em um vetor no C e em plataformas como o Arduino.
+
+a-
+A primeira linha da matriz contém os valores que representam as leituras de temperatura em diferentes momentos.
+
+b-
+40.4
+
+c-
+420
+
+d-
+int ambientData[3][5] = {
+  {22, 25, 23, 21, 24},  
+  {45, 38, 42, 40, 37},  
+  {400, 380, 420, 410, 390} 
+};
+int totalLocais = 3;
+int totalLeituras = 5;
+int somaTemperaturas = 0;
+
+void setup() {
+  Serial.begin(9600);
+
+for ( int i = 0; i < totalLocais ; i ++) {
+for ( int j = 0; j < totalLeituras ; j ++) {
+somaTemperaturas += ambientData [ i ][ j ];
+}
+
+float mediaTemperatura = somaTemperaturas / float(totalLocais * totalLeituras);
+
+  Serial.print("Média de Temperatura em todos os locais: ");
+  Serial.println(mediaTemperatura);
+}
+
+void loop() {
+}
+}
